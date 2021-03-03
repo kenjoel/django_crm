@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update</title>
+</head>
+<body>
+<p class="paragraph">You are now updating details belonging to, {{condor.first_name}}, {{condor.last_name}}</p>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+</form>
+
+</body>
+</html>

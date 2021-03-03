@@ -1,13 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>sentimental</title>
-</head>
-<body>
+{{% block content %}}
 <p><a href="/">go back</a></p>
 <p class="selected">
     {{ condor.first_name}}, {{condor.last_name}}, {{ condor.age }}
+    {{ condor.agent }}
 </p>
-</body>
-</html>
+
+<p class="fuzzy"><a href="{% url 'leads:update' condor.pk %}">Update details</a> </p>
+<p class="terminate"><a href="{% url 'leads:delete'  condor.pk%}">Terminate Monitoring</a> </p>
+{{% endblock content %}}
