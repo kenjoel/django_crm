@@ -17,7 +17,7 @@ class Condor(models.Model):
     agent = models.ForeignKey("Agent", on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{first_name}"
+        return f"{self.first_name}, {self.last_name}, {self.age}"
 
 
 # This class represents the agent and all the properties of an individual agent

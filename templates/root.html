@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Perseverance</title>
+</head>
+<style>
+    li{
+      list-style: None;
+      color: red;
+    }
+</style>
+<body>
+<h1>Hello Greetings</h1>
+<p>Welcome</p>
+<hr/>
+<h3>Here is a list of all your condors</h3>
+<ul>
+    {% for i in condor %}
+    <li>
+        <a href="{{i.pk}}">{{ i.first_name}} {{i.last_name}}</a> ,
+        {{ i.age}}
+    </li>
+    {% endfor %}
+</ul>
+<a href="/create">Create new Leads</a>
+</body>
+</html>
