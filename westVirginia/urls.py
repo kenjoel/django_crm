@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from condor.views import GenericViewLanding
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", include("condor.urls", namespace="leads"))
+    path("", GenericViewLanding.as_view(), name="landing_page"),
+    path("leads/", include("condor.urls", namespace="leads"))
 ]

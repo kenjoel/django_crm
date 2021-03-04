@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>CRM</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
+{% include 'nav.html' %}
+<div class="max-w-4xl mx-auto bg-gray-100">
+    {% block content %}
 
-{{% block content %}}
-
-{{% endblock content %}}
+    {% endblock content %}
+</div>
 
 </body>
 </html>
