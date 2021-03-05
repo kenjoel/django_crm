@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>CRM</title>
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
 </head>
 <body>
 {% include 'nav.html' %}
@@ -12,6 +13,7 @@
 
     {% endblock content %}
 </div>
+{% include 'scripts.html' %}
 
 </body>
 </html>

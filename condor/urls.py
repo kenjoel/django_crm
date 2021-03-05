@@ -9,7 +9,7 @@ from .views import (
 
 app_name = "leads"
 urlpatterns = [
-    path('leads/', GenericListContent.as_view(), name="condor"),
+    path('', GenericListContent.as_view(), name="condor"),
     path("<int:pk>/", GenericGetEachLead.as_view(), name="details"),
     path("create/", GenericCreateLead.as_view(), name="create"),
     path("<int:pk>/update/", GenericUpdateLead.as_view(), name="update"),
