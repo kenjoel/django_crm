@@ -18,6 +18,7 @@ class GenericListContent(ListView):
 class GenericGetEachLead(DetailView):
     template_name = "details.html"
     queryset = Condor.objects.all()
+    context_object_name = "details"
 
 
 class GenericCreateLead(CreateView):
@@ -25,21 +26,23 @@ class GenericCreateLead(CreateView):
     form_class = CreateLead
 
     def get_success_url(self):
-        reverse("leads:condor")
+        return reverse("leads:condor")
 
 
 class GenericUpdateLead(UpdateView):
     template_name = "update.html"
     queryset = Condor.objects.all()
     form_class = CreateLead
+    context_object_name = "update"
 
     def get_success_url(self):
-        reverse("leads:details")
+        return reverse("leads:condor")
 
 
 class GenericDeleteLead(DeleteView):
-    template_name = "update.html"
+    template_name = "delete.html"
     queryset = Condor.objects.all()
+    context_object_name = "delete"
 
     def get_success_url(self):
-        reverse("leads:condor")
+        return reverse("leads:condor")

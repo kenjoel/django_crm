@@ -11,7 +11,7 @@ app_name = "leads"
 urlpatterns = [
     path('leads/', GenericListContent.as_view(), name="condor"),
     path("<int:pk>/", GenericGetEachLead.as_view(), name="details"),
-    path("create/", GenericCreateLead, name="create"),
+    path("create/", GenericCreateLead.as_view(), name="create"),
     path("<int:pk>/update/", GenericUpdateLead.as_view(), name="update"),
     path("<int:pk>/delete/", GenericDeleteLead.as_view(), name="delete")
 ]
