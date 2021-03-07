@@ -7,7 +7,8 @@ from django.db.models.signals import post_save
 
 # This class represents a user and the permissions he/she is entitled to.
 class User(AbstractUser):
-    pass
+    is_owner = models.BooleanField(default=True)
+    is_Agent = models.BooleanField(d)
 
 
 class UserProfile(models.Model):

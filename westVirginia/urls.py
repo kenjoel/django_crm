@@ -25,10 +25,9 @@ urlpatterns = [
     path("", GenericViewLanding.as_view(), name="landing_page"),
     path("signup/", SignupView.as_view(), name="signup"),
     path("leads/", include("condor.urls", namespace="leads")),
-    path("agents/", include("agents.urls", namespace="agents"))
+    path("agents/", include("agents.urls", namespace="agents")),
     path("login/", LoginView.as_view(), name="login"),
-    path("logout/", LogoutView.as_view(), name="logout"),
-
+    path("logout/", LogoutView.as_view(), name="logout")
 ]
 
 if settings.DEBUG:
