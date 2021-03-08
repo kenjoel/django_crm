@@ -18,7 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from condor.views import GenericViewLanding, SignupView
-from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,7 +27,12 @@ urlpatterns = [
     path("leads/", include("condor.urls", namespace="leads")),
     path("agents/", include("agents.urls", namespace="agents")),
     path("login/", LoginView.as_view(), name="login"),
-    path("logout/", LogoutView.as_view(), name="logout")
+    path("logout/", LogoutView.as_view(), name="logout"),
+    path("reset-password/", PasswordResetView.as_view(), name="password-reset"),
+    path("reset-password-done/", PasswordResetDoneView.as_view(), name="password-reset-done"),
+    path("password-reset-confirm/<uidb64>/<toke>/", PasswordResetConfirmView.as_view(), name="password-reset-confirm"),
+    path("reset-password-complete/", PasswordResetCompleteView.as_view(), name="password-reset-complete"),
+
 ]
 
 if settings.DEBUG:
