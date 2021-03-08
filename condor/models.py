@@ -8,7 +8,7 @@ from django.db.models.signals import post_save
 # This class represents a user and the permissions he/she is entitled to.
 class User(AbstractUser):
     is_owner = models.BooleanField(default=True)
-    is_Agent = models.BooleanField(d)
+    is_Agent = models.BooleanField(default=False)
 
 
 class UserProfile(models.Model):
@@ -23,7 +23,8 @@ class Condor(models.Model):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
     age = models.IntegerField(default=0)
-    agent = models.ForeignKey("Agent", on_delete=models.CASCADE)
+    organisation = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    agent = models.ForeignKey("Agent", null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return f"{self.first_name}, {self.last_name}, {self.age}"

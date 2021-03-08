@@ -1,10 +1,15 @@
 from django import forms
-from condor.models import Agent
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class AgentCreateForm(forms.ModelForm):
     class Meta:
-        model = Agent
+        model = User
         fields = (
-            "user",
+            "username",
+            "email",
+            "first_name",
+            "last_name"
         )
