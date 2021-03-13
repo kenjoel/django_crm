@@ -3,7 +3,7 @@ from django.core.mail import send_mail
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView, FormView
 
 from agents.forms import AssignAgentForm
-from .models import Condor
+from .models import Condor, Category
 from .form import CreateLead, CustomUserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from agents.custom_mixins import OwnerAndLoginMixin
@@ -36,7 +36,7 @@ class GenericListContent(LoginRequiredMixin, ListView):
             # filter by logged in Agent
             queryset = queryset.objects.filter(agent__user=user)
         else:
-            queryset = Condor.objects.filter(organisatioin=user.userprofile, agent__isnull=False)
+            queryset = Condor.objects.filter(organisation=user.userprofile, agent__isnull=False)
         return queryset
 
     def get_context_data(self, *args, **kwargs):
@@ -63,7 +63,7 @@ class GenericGetEachLead(LoginRequiredMixin, DetailView):
             # filter by logged in Agent
             queryset = queryset.objects.filter(agent__user=user)
         else:
-            queryset = Condor.objects.filter(organisatioin=user.userprofile)
+            queryset = Condor.objects.filter(organisation=user.userprofile)
 
         return queryset
 
@@ -94,7 +94,7 @@ class GenericUpdateLead(OwnerAndLoginMixin, UpdateView):
 
     def get_queryset(self):
         user = self.request.user
-        return Condor.objects.filter(organisatioin=user.userprofile)
+        return Condor.objects.filter(organisation=user.userprofile)
 
     def get_success_url(self):
         return reverse("leads:condor")
@@ -106,7 +106,7 @@ class GenericDeleteLead(OwnerAndLoginMixin, DeleteView):
 
     def get_queryset(self):
         user = self.request.user
-        return Condor.objects.filter(organisatioin=user.userprofile)
+        return Condor.objects.filter(organisation=user.userprofile)
 
     def get_success_url(self):
         return reverse("leads:condor")
@@ -132,3 +132,18 @@ class AssignLead(OwnerAndLoginMixin, FormView):
         lead.agent = agent
         lead.save()
         return super(AssignLead, self).form_valid(form)
+
+
+class CategoryListView(LoginRequiredMixin, ListView):
+    template_name = "category/category_list.html"
+    context_object_name = "category_list"
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_Agent:
+            queryset = Category.objects.filter(organisation=user.agent.organisation)
+            # filter by logged in Agent
+        else:
+            queryset = Category.objects.filter(organisation=user.userprofile)
+        return queryset
+

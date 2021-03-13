@@ -5,7 +5,8 @@ from .views import (
     GenericCreateLead,
     GenericUpdateLead,
     GenericDeleteLead,
-    AssignLead
+    AssignLead,
+    CategoryListView
 )
 
 app_name = "leads"
@@ -15,5 +16,6 @@ urlpatterns = [
     path("create/", GenericCreateLead.as_view(), name="create"),
     path("<int:pk>/update/", GenericUpdateLead.as_view(), name="update"),
     path("<int:pk>/delete/", GenericDeleteLead.as_view(), name="delete"),
-    path("<int:pk>/assign/", AssignLead.as_view(), name="assign-lead")
+    path("<int:pk>/assign/", AssignLead.as_view(), name="assign-lead"),
+    path("categories/", CategoryListView.as_view(), name="category_list")
 ]

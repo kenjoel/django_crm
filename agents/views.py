@@ -28,10 +28,10 @@ class CreateAgent(OwnerAndLoginMixin, CreateView):
         user = form.save(commit=False)
         user.is_Agent = True
         user.is_owner = False
-        user.set_password(f"{random.randit(0,100000000)}")
+        user.set_password(f"{random.randint(0,100000000)}")
         user.save()
 
-        Agent.objets.create(user=user, organisation=self.request.user.userprofile)
+        Agent.objects.create(user=user, organisation=self.request.user.userprofile)
 
         send_mail(
             subject="Congratulations Agent f'{user.username}' ",
@@ -46,11 +46,11 @@ class CreateAgent(OwnerAndLoginMixin, CreateView):
 
 class AgentDetails(OwnerAndLoginMixin, DetailView):
     template_name = "agents/agent-details.html"
-    context_object_name = "agents"
+    context_object_name = "people"
 
     def get_queryset(self):
         organisation = self.request.user.userprofile
-        return Agent.objects.filter(organisation)
+        return Agent.objects.filter(organisation=organisation)
 
 
 class AgentUpdateLead(OwnerAndLoginMixin, UpdateView):
@@ -60,7 +60,7 @@ class AgentUpdateLead(OwnerAndLoginMixin, UpdateView):
 
     def get_queryset(self):
         organisation = self.request.user.userprofile
-        return Agent.objects.filter(organisation)
+        return Agent.objects.filter(organisation=organisation)
 
     def get_success_url(self):
         return reverse("agents:agent-list")
@@ -72,7 +72,7 @@ class AgentDeleteLead(OwnerAndLoginMixin, DeleteView):
 
     def get_queryset(self):
         organisation = self.request.user.userprofile
-        return Agent.objects.filter(organisation)
+        return Agent.objects.filter(organisation=organisation)
 
     def get_success_url(self):
         return reverse("agents:agent-list")
