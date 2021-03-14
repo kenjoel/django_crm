@@ -4,7 +4,7 @@ from django.views.generic import TemplateView, ListView, DetailView, CreateView,
 
 from agents.forms import AssignAgentForm
 from .models import Condor, Category
-from .form import CreateLead, CustomUserCreationForm
+from .form import CreateLead, CustomUserCreationForm, ClientUpdateCategoryForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from agents.custom_mixins import OwnerAndLoginMixin
 
@@ -39,16 +39,15 @@ class GenericListContent(LoginRequiredMixin, ListView):
             queryset = Condor.objects.filter(organisation=user.userprofile, agent__isnull=False)
         return queryset
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(GenericListContent, self).get_context_data(**kwargs)
-        user = self.request.user
-
-        if user.is_owner:
-            queryset = Condor.objects.filter(organisation=user.userprofile, agent__isnull=True)
-            context.update({
-                "unassigned_leads": queryset
-            })
-
+        # def get_context_data(self, *args, **kwargs):
+        #     context = super(GenericListContent, self).get_context_data(**kwargs)
+        #     user = self.request.user
+        #
+        #     if user.is_owner:
+        #         queryset = Condor.objects.filter(organisation=user.userprofile, agent__isnull=True)
+        #         context.update({
+        #             "unassigned_leads": queryset
+        #         })
         return context
 
 
@@ -76,6 +75,9 @@ class GenericCreateLead(OwnerAndLoginMixin, CreateView):
         return reverse("leads:condor")
 
     def form_valid(self, form):
+        lead = form.save(commit=False)
+        lead.organisation = self.request.user.userprofile
+        lead.save()
         # Mail logic
         send_mail(
             subject="I Love you",
@@ -138,6 +140,20 @@ class CategoryListView(LoginRequiredMixin, ListView):
     template_name = "category/category_list.html"
     context_object_name = "category_list"
 
+    def get_context_data(self, **kwargs):
+        context = super(CategoryListView, self).get_context_data(**kwargs)
+        user = self.request.user
+
+        if user.is_owner:
+            queryset = Condor.objects.filter(organisation=user.userprofile)
+
+        else:
+            queryset = Condor.objects.filter(organisation=user.agent.userprofile)
+
+        context.update({"unassigned_leads_count": queryset.filter(category__isnull=True).count()})
+
+        return context
+
     def get_queryset(self):
         user = self.request.user
         if user.is_Agent:
@@ -147,3 +163,43 @@ class CategoryListView(LoginRequiredMixin, ListView):
             queryset = Category.objects.filter(organisation=user.userprofile)
         return queryset
 
+
+class CategoryDetailView(LoginRequiredMixin, DetailView):
+    template_name = "category/each_category.html"
+    context_object_name = "category"
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(CategoryDetailView, self).get_context_data(**kwargs)
+    #     leads = self.get_object().clients.all()
+    #
+    #     context.update({"leads": leads})
+    #
+    #     return context
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_Agent:
+            queryset = Category.objects.filter(organisation=user.agent.organisation)
+            # filter by logged in Agent
+        else:
+            queryset = Category.objects.filter(organisation=user.userprofile)
+        return queryset
+
+
+class CategoryViewUpdate(LoginRequiredMixin, UpdateView):
+    template_name = "category/category_update.html"
+    form_class = ClientUpdateCategoryForm
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if user.is_owner:
+            queryset = Condor.objects.filter(organisation=user.userprofile)
+
+        else:
+            queryset = Condor.objects.filter(organisation=user.agent.userprofile)
+            queryset = queryset.filter(agent__user=user)
+        return queryset
+
+    def get_success_url(self):
+        return reverse("leads:categories")

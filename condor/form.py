@@ -23,3 +23,10 @@ class CustomUserCreationForm(UserCreationForm):
         model = User
         fields = ("username",)
         field_classes = {'username': UsernameField}
+
+
+class ClientUpdateCategoryForm(forms.ModelForm):
+    model = Condor
+    fields = (
+        "category",
+    )

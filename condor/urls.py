@@ -6,7 +6,9 @@ from .views import (
     GenericUpdateLead,
     GenericDeleteLead,
     AssignLead,
-    CategoryListView
+    CategoryListView,
+    CategoryDetailView,
+    ClientUpdateCategoryForm
 )
 
 app_name = "leads"
@@ -17,5 +19,7 @@ urlpatterns = [
     path("<int:pk>/update/", GenericUpdateLead.as_view(), name="update"),
     path("<int:pk>/delete/", GenericDeleteLead.as_view(), name="delete"),
     path("<int:pk>/assign/", AssignLead.as_view(), name="assign-lead"),
-    path("categories/", CategoryListView.as_view(), name="category_list")
+    path("<int:pk>/category-update/", ClientUpdateCategoryForm.as_view(), name="category_update"),
+    path("categories/", CategoryListView.as_view(), name="category_list"),
+    path("categories/<int:pk>/", CategoryDetailView.as_view(), name="category_detail")
 ]

@@ -16,9 +16,16 @@
           </tr>
         </thead>
         <tbody>
+         <tr>
+           <td class="px-4 py-3">Unassigned</td>
+           <td class="px-4 py-3">{{unassigned_leads_count}}</td>
+          </tr>
+
         {% for category in category_list %}
           <tr>
-           <td class="px-4 py-3">{{category.name}}</td>
+           <td class="px-4 py-3">
+             <a href="{% url 'leads:category_detail' category.pk %}">{{category.name}}</a>
+           </td>
            <td class="px-4 py-3">Total</td>
           </tr>
         {% endfor %}
@@ -29,4 +36,4 @@
 </section>
 
 
-{% block content %}
+{% endblock content %}
