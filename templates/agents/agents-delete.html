@@ -1,13 +1,17 @@
 {% extends 'base.html' %}
+{% load tailwind_filters %}
 
 {% block content %}
-<a href="{% url 'agents:agent-details' agents.pk%}" class="flex-grow text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-1">
-              Changed My Mind</a>
-<hr/>
-<h1> Terminate Monitoring?</h1>
+<div class="max-w-lg mx-auto">
+    <a href="{% url 'leads:details' agents.pk%}" class="flex-grow text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-3">
+        Changed My Mind</a>
+</div>
+<div class="max-w-lg mx-auto mt-5 py-5">
+    <h1> Terminate Monitoring?</h1>
+</div>
   <form method="post">
       {% csrf_token %}
-      {{ form.as_p }}
-    <button type="submit">Done</button>
+      {{ form|crispy }}
+    <button class="w-500 bg-blue-500 hover:bg-blue-500 text-white px-3 py-3 round-md" type="submit">Do it</button>
   </form>
 {% endblock content %}

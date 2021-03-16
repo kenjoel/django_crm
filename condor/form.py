@@ -14,7 +14,10 @@ class CreateLead(forms.ModelForm):
             "first_name",
             "last_name",
             "age",
-            "agent"
+            "agent",
+            "description",
+            "phone_number",
+            "email"
         )
 
 
@@ -26,7 +29,8 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class ClientUpdateCategoryForm(forms.ModelForm):
-    model = Condor
-    fields = (
-        "category",
-    )
+    class Meta:
+        model = Condor
+        fields = (
+            "category",
+        )

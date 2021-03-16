@@ -1,13 +1,17 @@
 {% extends "base.html" %}
-
+{% load tailwind_filters %}
 
 {% block content %}
-<div class="form">
-    <form method="post">
+<div class="max-w-lg mx-auto">
+    <a class="hover:text-blue-500" href="{% url 'leads:condor' %}">Cancel</a>
+    <hr/>
+    <div class="py-5 border-t border-gray-200">
+         <h1 class="text-4xl text-gray-800">Create New Lead</h1>
+    </div>
+    <form method="post" class="mt-5">
         {% csrf_token %}
-
-        {{form.as_p}}
-        <button type="submit">Submit</button>
+        {{form|crispy}}
+        <button class="w-full bg-blue-500 hover:bg-blue-500 text-white px-3 py-3 round-md" type="submit">Submit</button>
     </form>
 </div>
 {% endblock content %}

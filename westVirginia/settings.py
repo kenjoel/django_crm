@@ -36,7 +36,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'condor',
-    'agents'
+    'agents',
+
+    # External Packages
+    'crispy_forms',
+    'crispy_tailwind'
 ]
 
 MIDDLEWARE = [
@@ -125,3 +129,7 @@ LOGIN_REDIRECT_URL = "/leads"
 LOGIN_URL = "/login"
 
 AUTH_USER_MODEL = "condor.User"
+
+CRISPY_TEMPLATE_PACK = 'tailwind'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"

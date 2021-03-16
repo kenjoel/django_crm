@@ -59,8 +59,8 @@ class AgentUpdateLead(OwnerAndLoginMixin, UpdateView):
     context_object_name = "agents"
 
     def get_queryset(self):
-        organisation = self.request.user.userprofile
-        return Agent.objects.filter(organisation=organisation)
+        organisation = self.request.user
+        return Agent.objects.filter(organisation=organisation.userprofile)
 
     def get_success_url(self):
         return reverse("agents:agent-list")

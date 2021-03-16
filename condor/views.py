@@ -189,6 +189,7 @@ class CategoryDetailView(LoginRequiredMixin, DetailView):
 class CategoryViewUpdate(LoginRequiredMixin, UpdateView):
     template_name = "category/category_update.html"
     form_class = ClientUpdateCategoryForm
+    context_object_name = "supply"
 
     def get_queryset(self):
         user = self.request.user
@@ -202,4 +203,4 @@ class CategoryViewUpdate(LoginRequiredMixin, UpdateView):
         return queryset
 
     def get_success_url(self):
-        return reverse("leads:categories")
+        return reverse("leads:details", kwargs={"pk": self.get_object().id})
