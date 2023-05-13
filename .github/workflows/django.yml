@@ -36,7 +36,7 @@ jobs:
       run: echo ${{ steps.docker_build.outputs.digest }}
 
     - name: Deploy to Minikube
-      uses: appleboy/kubectl-action@master
+      uses: myrotvorets/kubectl-action@2.0.0
       with:
         config: ${{ env.KUBECONFIG }}
         command: apply
@@ -60,6 +60,6 @@ jobs:
                       image: inveigle/django_crm
                       ports:
                         - containerPort: 80
-                      env:
-                        - name: ""
-                          value: ""
+#                      env:
+#                        - name: ""
+#                          value: ""
