@@ -8,8 +8,8 @@ RUN apt-get update \
 
 WORKDIR /app
 
-COPY ./requirements.txt /app
-RUN pip install --no-cache-dir --requirement /app/requirements.txt
+COPY ./requirements.text /app
+RUN pip install --no-cache-dir --requirement /app/requirements.text
 COPY . /app
 
 EXPOSE 8000
