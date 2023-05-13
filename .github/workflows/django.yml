@@ -34,3 +34,32 @@ jobs:
         tags: ${{ secrets.DOCKER_HUB_USERNAME }}/django_crm:latest
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
+
+    - name: Deploy to Minikube
+      uses: appleboy/kubectl-action@master
+      with:
+        config: ${{ env.KUBECONFIG }}
+        command: apply
+        manifest: |
+          apiVersion: apps/v1
+            kind: Deployment
+            metadata:
+              name: django_crm
+            spec:
+              replicas: 1
+              selector:
+                matchLabels:
+                  app: django_crm
+              template:
+                metadata:
+                  labels:
+                    app: django_crm
+                spec:
+                  containers:
+                    - name: django_crm
+                      image: inveigle/django_crm
+                      ports:
+                        - containerPort: 80
+                      env:
+                        - name: ""
+                          value: ""
