@@ -24,7 +24,8 @@ jobs:
       id: buildx
       uses: docker/setup-buildx-action@v1
 
-    - name: Build and push
+
+    - name: deploy
       id: docker_build
       uses: docker/build-push-action@v2
       with:
@@ -35,8 +36,15 @@ jobs:
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
 
-    - name: Deploy to Minikube
-      uses: myrotvorets/kubectl-action@2.0.0
+    - name: Deploy to Minikube EC2
+      needs: deploy
+      steps:
+        - uses: actions/checkout@v2
+        - name: Set up SSH
+          uses: actions/setup-ssh@v1
+        - name: Connect to EC2
+          run: ssh -i ${{ secrets.EC2_KEY_FILE }} ubuntu@${{ secrets.EC2_HOST }}
+        - name: Deploy to EC2
       with:
         config: ${{ env.KUBECONFIG }}
         command: apply
