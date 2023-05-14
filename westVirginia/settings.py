@@ -133,3 +133,7 @@ AUTH_USER_MODEL = "condor.User"
 CRISPY_TEMPLATE_PACK = 'tailwind'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+'''#                      env:
+#                        - name: ""
+#                          value: ""
+'''
