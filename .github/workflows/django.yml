@@ -45,27 +45,27 @@ jobs:
         - name: Connect to EC2
           run: ssh -i ${{ secrets.EC2_KEY_FILE }} ubuntu@${{ secrets.EC2_HOST }}
         - name: Deploy to EC2
-            with:
-              config: ${{ env.KUBECONFIG }}
-              command: apply
-              manifest: |
-                apiVersion: apps/v1
-                  kind: Deployment
-                  metadata:
-                    name: django_crm
-                  spec:
-                    replicas: 1
-                    selector:
-                      matchLabels:
+          with:
+            config: ${{ env.KUBECONFIG }}
+            command: apply
+            manifest: |
+              apiVersion: apps/v1
+                kind: Deployment
+                metadata:
+                  name: django_crm
+                spec:
+                  replicas: 1
+                  selector:
+                    matchLabels:
+                      app: django_crm
+                  template:
+                    metadata:
+                      labels:
                         app: django_crm
-                    template:
-                      metadata:
-                        labels:
-                          app: django_crm
-                      spec:
-                        containers:
-                          - name: django_crm
-                            image: inveigle/django_crm
-                            ports:
-                              - containerPort: 80
-      
+                    spec:
+                      containers:
+                        - name: django_crm
+                          image: inveigle/django_crm
+                          ports:
+                            - containerPort: 80
+    
